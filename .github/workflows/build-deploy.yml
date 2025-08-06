@@ -1,0 +1,42 @@
+name: Build and Deploy
+on:
+  push:
+    branches: [ "main" ]  # Trigger on pushes to main branch
+
+jobs:
+  minify-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Needed to deploy to gh-pages
+      pages: write     # Needed for GitHub Pages
+      id-token: write  # Needed for OIDC auth (if using external storage)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install minification tools
+        run: |
+          npm install -g terser clean-css-cli
+
+      - name: Minify JavaScript and CSS
+        run: |
+          terser js/script.js -o js/script.min.js --compress --mangle
+          cleancss css/style.css -o css/style.min.css --source-map
+
+      - name: Replace original files with minified versions
+        run: |
+          mv js/script.min.js js/script.js
+          mv css/style.min.css css/style.css
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./  # Deploy everything
+          keep_files: true # Preserve existing files (like images)
