@@ -236,6 +236,26 @@ function initProductDetail() {
     }
 }
 
+function initProductGrid() {
+    const productGrid = document.querySelector('.product-grid');
+    if (!productGrid) return;
+
+    productGrid.innerHTML = ''; // Clear previous content
+
+    products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>$${product.price.toFixed(2)}</p>
+            <!-- 👇 Add product.id to the link -->
+            <a href="product-detail.html?id=${product.id}" class="btn">View Details</a>
+        `;
+        productGrid.appendChild(productCard);
+    });
+}
+
 // Initialize thumbnails
 function initThumbnails() {
     document.querySelectorAll('.thumbnail').forEach(thumb => {
