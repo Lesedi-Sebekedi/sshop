@@ -67,6 +67,108 @@ function updateCartCount() {
     });
 }
 
+// Render cart items function
+function renderCartItems() {
+    const cartContainer = document.getElementById('cart-items-container');
+    const emptyMessage = document.getElementById('empty-cart-message');
+    
+    // Clear previous items
+    cartContainer.innerHTML = '';
+    
+    if (cart.length === 0) {
+        emptyMessage.style.display = 'block';
+        return;
+    }
+    
+    emptyMessage.style.display = 'none';
+    
+    // Create HTML for each cart item
+    cart.forEach(item => {
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        cartItem.dataset.id = item.id;
+        cartItem.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="cart-item-info">
+                <h3>${item.name}</h3>
+                <p class="cart-item-price">$${item.price.toFixed(2)}</p>
+                <div class="cart-item-quantity">
+                    <button class="decrease-qty">-</button>
+                    <input type="number" value="${item.quantity}" min="1">
+                    <button class="increase-qty">+</button>
+                </div>
+                <span class="cart-item-remove">Remove</span>
+            </div>
+            <div class="cart-item-total">
+                $${(item.price * item.quantity).toFixed(2)}
+            </div>
+        `;
+        cartContainer.appendChild(cartItem);
+    });
+    
+    // Add event listeners to the new elements
+    addCartItemEventListeners();
+}
+
+// Add event listeners to cart items
+function addCartItemEventListeners() {
+    // Quantity decrease buttons
+    document.querySelectorAll('.decrease-qty').forEach(button => {
+        button.addEventListener('click', function() {
+            const itemId = parseInt(this.closest('.cart-item').dataset.id);
+            const item = cart.find(item => item.id === itemId);
+            if (item && item.quantity > 1) {
+                item.quantity--;
+                saveCart();
+                renderCartItems();
+            }
+        });
+    });
+    
+    // Quantity increase buttons
+    document.querySelectorAll('.increase-qty').forEach(button => {
+        button.addEventListener('click', function() {
+            const itemId = parseInt(this.closest('.cart-item').dataset.id);
+            const item = cart.find(item => item.id === itemId);
+            if (item) {
+                item.quantity++;
+                saveCart();
+                renderCartItems();
+            }
+        });
+    });
+    
+    // Quantity input changes
+    document.querySelectorAll('.cart-item-quantity input').forEach(input => {
+        input.addEventListener('change', function() {
+            const itemId = parseInt(this.closest('.cart-item').dataset.id);
+            const item = cart.find(item => item.id === itemId);
+            const newQuantity = parseInt(this.value) || 1;
+            
+            if (item) {
+                item.quantity = newQuantity;
+                saveCart();
+                renderCartItems();
+            }
+        });
+    });
+    
+    // Remove item buttons
+    document.querySelectorAll('.cart-item-remove').forEach(button => {
+        button.addEventListener('click', function() {
+            const itemId = parseInt(this.closest('.cart-item').dataset.id);
+            cart = cart.filter(item => item.id !== itemId);
+            saveCart();
+            renderCartItems();
+        });
+    });
+}
+
+// Call this when the cart page loads
+if (window.location.pathname.includes('cart.html')) {
+    renderCartItems();
+}
+
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
     loadCart();
@@ -122,4 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+
+
 });
