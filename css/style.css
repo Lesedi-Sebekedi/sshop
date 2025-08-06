@@ -616,3 +616,31 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+/* Add to your existing CSS */
+.error-message {
+    text-align: center;
+    padding: 40px;
+    color: #e63946;
+}
+
+.error-message h2 {
+    margin-bottom: 20px;
+}
+
+.product-info h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e63946;
+    margin-bottom: 20px;
+}
+
+.description {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}

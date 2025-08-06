@@ -14,7 +14,7 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="products.html">Products</a></li>
-                    <li><a href="cart.html">Cart (0)</a></li>
+                    <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
                 </ul>
             </nav>
         </div>
@@ -22,22 +22,20 @@
 
     <main class="container product-detail">
         <div class="product-images">
-            <img src="images/product1.jpg" alt="Product 1" id="main-image">
+            <img src="" alt="Product Image" id="main-image">
             <div class="thumbnail-container">
-                <img src="images/product1.jpg" alt="Thumbnail 1" class="thumbnail">
-                <img src="images/product2.jpg" alt="Thumbnail 2" class="thumbnail">
-                <img src="images/product3.jpg" alt="Thumbnail 3" class="thumbnail">
+                <!-- Thumbnails will be added dynamically -->
             </div>
         </div>
         <div class="product-info">
-            <h2>Premium Product</h2>
-            <p class="price">$29.99</p>
-            <p class="description">This is a high-quality product with amazing features that will enhance your life. Made from premium materials with attention to detail.</p>
+            <h2 id="product-title">Loading product...</h2>
+            <p class="price" id="product-price">$0.00</p>
+            <p class="description" id="product-description">Loading description...</p>
             <div class="quantity">
                 <label for="quantity">Quantity:</label>
                 <input type="number" id="quantity" min="1" value="1">
             </div>
-            <button class="btn add-to-cart" data-id="1">Add to Cart</button>
+            <button class="btn add-to-cart">Add to Cart</button>
         </div>
     </main>
 

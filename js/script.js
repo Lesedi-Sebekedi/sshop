@@ -1,16 +1,51 @@
 // Import DOMPurify from CDN (works without npm)
 const DOMPurify = window.DOMPurify || { sanitize: str => str }; // Fallback if CDN fails
 
-// Sample product data
+// Sample product data with descriptions
 const products = [
-    { id: 1, name: "Product 1", price: 19.99, image: "images/product1.jpg" },
-    { id: 2, name: "Product 2", price: 24.99, image: "images/product2.jpg" },
-    { id: 3, name: "Product 3", price: 29.99, image: "images/product3.jpg" },
-    { id: 4, name: "Product 4", price: 34.99, image: "images/product1.jpg" },
-    { id: 5, name: "Product 5", price: 39.99, image: "images/product2.jpg" },
-    { id: 6, name: "Product 6", price: 44.99, image: "images/product3.jpg" }
+    { 
+        id: 1, 
+        name: "Premium Wireless Headphones", 
+        price: 19.99, 
+        image: "images/product1.jpg",
+        description: "Experience crystal-clear sound with our comfortable over-ear headphones. Features 20-hour battery life and noise cancellation."
+    },
+    { 
+        id: 2, 
+        name: "Smart Fitness Tracker", 
+        price: 24.99, 
+        image: "images/product2.jpg",
+        description: "Track your steps, heart rate, and sleep patterns with this sleek waterproof fitness band. Syncs with all major smartphones."
+    },
+    { 
+        id: 3, 
+        name: "Ultra HD Action Camera", 
+        price: 29.99, 
+        image: "images/product3.jpg",
+        description: "Capture your adventures in stunning 4K resolution. Waterproof casing included for underwater shots up to 30m."
+    },
+    { 
+        id: 4, 
+        name: "Bluetooth Portable Speaker", 
+        price: 34.99, 
+        image: "images/product4.jpg",
+        description: "Powerful 20W speaker with deep bass and 15-hour playtime. Perfect for outdoor gatherings and travel."
+    },
+    { 
+        id: 5, 
+        name: "Ergonomic Wireless Mouse", 
+        price: 39.99, 
+        image: "images/product5.jpg",
+        description: "Designed for comfort during long work sessions. Features silent clicks and precise 1600DPI tracking."
+    },
+    { 
+        id: 6, 
+        name: "Fast Wireless Charger", 
+        price: 44.99, 
+        image: "images/product6.jpg",
+        description: "Charge your Qi-enabled devices at maximum speed. Includes overcharge protection and non-slip surface."
+    }
 ];
-
 // Cart functionality
 let cart = [];
 let activeDiscount = 0;
@@ -19,6 +54,7 @@ let activeDiscount = 0;
 function initialize() {
     loadCart();
     updateCartCount();
+    initProductGrid(); 
     initProductDetail();
     initThumbnails();
     if (location.pathname.includes('cart.html')) renderCartItems();
@@ -223,16 +259,57 @@ function confirmOrder() {
 
 // Initialize product detail page
 function initProductDetail() {
-    const addToCartBtn = document.querySelector('.add-to-cart');
-    if (!addToCartBtn) return;
-
     const productId = parseInt(new URLSearchParams(window.location.search).get('id'));
-    if (productId) {
+    if (!productId) {
+        console.error("No product ID in URL");
+        showError("Product not found");
+        return;
+    }
+
+    const product = products.find(p => p.id === productId);
+    if (!product) {
+        console.error("Product not found");
+        showError("Product not found");
+        return;
+    }
+
+    // Update product details
+    document.getElementById('product-title').textContent = product.name;
+    document.getElementById('product-price').textContent = `$${product.price.toFixed(2)}`;
+    document.getElementById('product-description').textContent = product.description;
+    document.getElementById('main-image').src = product.image;
+    document.getElementById('main-image').alt = product.name;
+
+    // Set up thumbnails (using main image as thumbnail if no additional images)
+    const thumbnailContainer = document.querySelector('.thumbnail-container');
+    if (thumbnailContainer) {
+        thumbnailContainer.innerHTML = `
+            <img src="${product.image}" class="thumbnail" alt="${product.name} thumbnail">
+        `;
+        initThumbnails();
+    }
+
+    // Set up Add to Cart button
+    const addToCartBtn = document.querySelector('.add-to-cart');
+    if (addToCartBtn) {
+        addToCartBtn.dataset.id = productId;
         addToCartBtn.addEventListener('click', () => {
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
             addToCart(productId, quantity);
-            alert('Added to cart!');
+            alert(`${quantity} ${product.name} added to cart!`);
         });
+    }
+}
+
+function showError(message) {
+    const productInfo = document.querySelector('.product-info');
+    if (productInfo) {
+        productInfo.innerHTML = `
+            <div class="error-message">
+                <h2>${message}</h2>
+                <a href="products.html" class="btn">Browse Products</a>
+            </div>
+        `;
     }
 }
 
