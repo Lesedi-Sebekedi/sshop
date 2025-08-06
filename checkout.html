@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - ShopHome</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>ShopHome</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Checkout</h2>
+        <div class="checkout-grid">
+            <div class="checkout-form">
+                <h3>Contact & Shipping</h3>
+                <form id="checkout-form">
+                    <input type="email" placeholder="Email" required>
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="text" placeholder="Address" required>
+                    <input type="text" placeholder="City" required>
+                    <select required>
+                        <option value="">Select Country</option>
+                        <option>USA</option>
+                        <option>UK</option>
+                    </select>
+                </form>
+            </div>
+            <div class="order-summary">
+                <h3>Order Summary</h3>
+                <div id="checkout-items"></div>
+                <div class="summary-total">
+                    <span>Total:</span>
+                    <span id="checkout-total">$0.00</span>
+                </div>
+                <button class="btn" id="confirm-order">Confirm Order</button>
+                <p class="disclaimer">
+                    You'll be redirected to PayPal/Stripe to complete payment.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 ShopHome. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
