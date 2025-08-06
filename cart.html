@@ -37,19 +37,31 @@
                 <h3>Order Summary</h3>
                 <div class="summary-details">
                     <div class="summary-row">
+                        <span>Items (<span id="item-count">0</span>)</span>
+                        <span id="items-subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
                         <span>Subtotal</span>
                         <span id="subtotal">$0.00</span>
                     </div>
                     <div class="summary-row">
                         <span>Shipping</span>
-                        <span id="shipping">$5.99</span>
+                        <span id="shipping">$0.00</span>
+                    </div>
+                    <div class="summary-row discount">
+                        <span>Discount</span>
+                        <span id="discount">-$0.00</span>
                     </div>
                     <div class="summary-row total">
                         <span>Total</span>
-                        <span id="total">$5.99</span>
+                        <span id="total">$0.00</span>
                     </div>
                 </div>
-                <button id="checkout-btn" class="btn" disabled>Proceed to Checkout</button>
+                <div class="coupon-section">
+                    <input type="text" id="coupon-code" placeholder="Enter coupon code">
+                    <button id="apply-coupon" class="btn-outline">Apply</button>
+                </div>
+                <button id="checkout-btn" class="btn">Proceed to Checkout</button>
             </div>
         </div>
     </main>
